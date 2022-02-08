@@ -38,11 +38,11 @@ echo '✔️ Code looks good '
 
 echo '🔨 Trying to build now...'
 
-yarn build ||
-(
-    echo '❌🔨 Error in Build Project ❌🔨'
-    false;
-)
+# yarn build ||
+# (
+#     echo '❌🔨 Error in Build Project ❌🔨'
+#     false;
+# )
 
 # If everything passes... Now we can commit
 echo '✅✅✅ Done.  committing this now... ✅✅✅'
