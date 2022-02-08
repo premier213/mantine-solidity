@@ -1,0 +1,48 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+
+echo '⌛ Format Prettier ...'
+# Format Prettier Standards
+yarn format ||
+(
+        echo '❗ Prettier Format Failed ❗'
+        false; 
+)
+
+echo '⌛ Check Prettier ...'
+# Check Prettier Standards
+yarn format:check ||
+(
+        echo '❗ Prettier Check Failed. (use yarn format) ❗'
+        false; 
+)
+
+echo '⌛ Check Eslint ...'
+# Check ESLint Standards
+yarn lint ||
+(
+        echo '❗ Eslint Check Failed ❗'
+        false; 
+)
+
+echo '⌛ Check Typescript ...'
+# Check tsconfig standards
+yarn type ||
+(
+    echo '❗ Typescript Check Failed ❗'
+    false;
+)
+
+echo '✔️ Code looks good '
+
+echo '🔨 Trying to build now...'
+
+yarn build ||
+(
+    echo '❌🔨 Error in Build Project ❌🔨'
+    false;
+)
+
+# If everything passes... Now we can commit
+echo '✅✅✅ Done.  committing this now... ✅✅✅'
