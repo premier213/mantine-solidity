@@ -42,7 +42,6 @@ module.exports = {
         allowBlockStart: true
       }
     ],
-    '@typescript-eslint/explicit-function-return-type': 'error',
     'react/jsx-props-no-spreading': 'off',
     'react/react-in-jsx-scope': 'off',
     'jsx-a11y/autocomplete-valid': [

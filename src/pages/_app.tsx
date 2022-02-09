@@ -1,5 +1,8 @@
-import { GlobalStyles, MantineProvider, NormalizeCSS } from '@mantine/core';
-import { NotificationsProvider } from '@mantine/notifications';
+import { CacheProvider } from '@emotion/react';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
+import createEmotionCache from '@style/create-emotion-cache';
+import theme from '@style/theme';
 import { AppPropertiesWithLayout } from '@type/global';
 import Head from 'next/head';
 import { ReactElement, ReactNode, useState } from 'react';
@@ -7,8 +10,16 @@ import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
 
-export default function App(properties: AppPropertiesWithLayout): ReactElement {
-  const { Component, pageProps } = properties;
+const clientSideEmotionCache = createEmotionCache();
+
+export default function MyApp(
+  properties: AppPropertiesWithLayout
+): ReactElement {
+  const {
+    Component,
+    emotionCache = clientSideEmotionCache,
+    pageProps
+  } = properties;
   const [queryClient] = useState(() => new QueryClient());
   const getLayout =
     Component.getLayout ?? ((page: ReactElement): ReactNode => page);
@@ -16,7 +27,7 @@ export default function App(properties: AppPropertiesWithLayout): ReactElement {
   return (
     <RecoilRoot>
       <Head>
-        <title>Mantine next example</title>
+        <title>Mui example</title>
         <meta
           name='viewport'
           content='minimum-scale=1, initial-scale=1, width=device-width'
@@ -24,18 +35,12 @@ export default function App(properties: AppPropertiesWithLayout): ReactElement {
       </Head>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <MantineProvider
-            theme={{
-              /** Put your mantine theme override here */
-              colorScheme: 'light'
-            }}
-          >
-            <NormalizeCSS />
-            <GlobalStyles />
-            <NotificationsProvider>
+          <CacheProvider value={emotionCache}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
               {getLayout(<Component {...pageProps} />)}
-            </NotificationsProvider>
-          </MantineProvider>
+            </ThemeProvider>
+          </CacheProvider>
         </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

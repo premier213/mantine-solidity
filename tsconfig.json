@@ -28,6 +28,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "jsxImportSource": "@emotion/react",
     "incremental": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
