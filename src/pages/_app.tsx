@@ -1,3 +1,4 @@
+import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
@@ -9,6 +10,8 @@ import { ReactElement, ReactNode, useState } from 'react';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { RecoilRoot } from 'recoil';
+import { prefixer } from 'stylis';
+import rtlPlugin from 'stylis-plugin-rtl';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -21,6 +24,17 @@ export default function MyApp(
     pageProps
   } = properties;
   const [queryClient] = useState(() => new QueryClient());
+
+  // const cacheRtl = createCache({
+  //   key: 'muirtl',
+  //   stylisPlugins: [prefixer, rtlPlugin]
+  // });
+
+  const cache = createCache({
+    key: 'root',
+    prepend: true
+  });
+
   const getLayout =
     Component.getLayout ?? ((page: ReactElement): ReactNode => page);
 
@@ -36,10 +50,14 @@ export default function MyApp(
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <CacheProvider value={emotionCache}>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              {getLayout(<Component {...pageProps} />)}
-            </ThemeProvider>
+            <CacheProvider value={cache}>
+              {/* <CacheProvider value={cacheRtl}> */}
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                {getLayout(<Component {...pageProps} />)}
+              </ThemeProvider>
+              {/* </CacheProvider> */}
+            </CacheProvider>
           </CacheProvider>
         </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} />
