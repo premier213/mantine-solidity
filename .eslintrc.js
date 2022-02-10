@@ -28,8 +28,9 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:unicorn/recommended',
-    'plugin:@next/next/recommended',
-    'prettier'
+    'prettier',
+    'next/core-web-vitals',
+    'next'
   ],
   rules: {
     'import/no-unresolved': 'off',
