@@ -7,30 +7,25 @@ module.exports = {
   },
   env: { es6: true },
   plugins: [
-    'simple-import-sort',
     'import',
     'security',
-    'write-good-comments',
-    'json',
     '@typescript-eslint',
-    'unicorn',
     'jsx-a11y',
-    'promise'
+    'testing-library',
+    'jest-dom',
+    'plugin:testing-library/react'
   ],
   extends: [
-    'airbnb',
-    'airbnb-typescript',
+    'plugin:jest-dom/recommended',
+    'plugin:testing-library/react',
     'plugin:import/recommended',
     'plugin:security/recommended',
-    'plugin:promise/recommended',
-    'plugin:json/recommended',
     'plugin:jsx-a11y/recommended',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:unicorn/recommended',
+    'plugin:@next/next/recommended',
     'prettier',
-    'next/core-web-vitals',
-    'next'
+    'next/core-web-vitals'
   ],
   rules: {
     'import/no-unresolved': 'off',
@@ -88,13 +83,11 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': ['error'],
     '@typescript-eslint/object-curly-spacing': 'off',
     'no-console': 'warn',
-    'write-good-comments/write-good-comments': 'warn',
-    'simple-import-sort/imports': 'error',
-    'simple-import-sort/exports': 'error',
     'import/first': 'error',
     'import/newline-after-import': 'error',
     'import/no-duplicates': 'error'
   },
+  overrides: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   settings: {
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx']
